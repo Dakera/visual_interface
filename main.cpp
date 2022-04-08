@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Widget w(0);
-    w.show();
+    Widget w(0); // создаем объект
+    w.show(); // показываем его
     return a.exec();
 }

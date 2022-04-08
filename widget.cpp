@@ -14,18 +14,16 @@ Widget::Widget(QWidget *parent)
     frame->setFrameShape(QFrame::Panel);
 
     // создаем все объекты
-    inputLabel = new QLabel("Введите число:",
-    this);
-    inputEdit = new QLineEdit("",this);
+    inputLabel = new QLabel("Введите число:", this);
+    inputEdit = new QLineEdit("", this);
+
     StrValidator *v = new StrValidator(inputEdit); // создаем наш валидатор
     inputEdit->setValidator(v); // если честно не очень понял зачем он тут нужен
-    outputLabel = new QLabel("Результат:",
-    this);
-    outputEdit = new QLineEdit("",this);
-    nextButton = new QPushButton("Следующее",
-    this);
-    exitButton = new QPushButton("Выход",
-    this);
+
+    outputLabel = new QLabel("Результат:", this);
+    outputEdit = new QLineEdit("", this);
+    nextButton = new QPushButton("Следующее", this);
+    exitButton = new QPushButton("Выход", this);
     calcButton = new QPushButton("Вычислить", this);
 
     // далее компановка
@@ -47,17 +45,17 @@ Widget::Widget(QWidget *parent)
     hLayout->addWidget(frame);
     hLayout->addLayout(vLayout2);
 
-    begin();
+    begin(); // вызов функции очистки/инициализации
 
     // создаем связи к кнопкам
-    connect(exitButton,SIGNAL(clicked(bool)),
-    this,SLOT(close()));
-    connect(nextButton,SIGNAL(clicked(bool)),
-    this,SLOT(begin()));
-    connect(inputEdit,SIGNAL(returnPressed()), // связь к нажатию enter
-    this,SLOT(calc()));
-    connect(calcButton,SIGNAL(clicked(bool)),
-    this,SLOT(calc()));
+    connect(exitButton, SIGNAL(clicked(bool)), // связь кнопки выхода
+        this, SLOT(close()));
+    connect(nextButton, SIGNAL(clicked(bool)), // связь кнопки далее и функции очистки/инициализации
+        this, SLOT(begin()));
+    connect(inputEdit, SIGNAL(returnPressed()), // связь к нажатию enter и рассчёту
+        this, SLOT(calc()));
+    connect(calcButton, SIGNAL(clicked(bool)), // связь кнопки посчитать и рассчёту
+        this, SLOT(calc()));
 }
 
 Widget::~Widget() // деструктор, не уверен что это необходимо, a.exec() должен всё удалять по идее
@@ -87,7 +85,7 @@ void Widget::calc()
 {
     bool Ok = true;
     float r, a;
-    QString str = inputEdit->text();
+    QString str = inputEdit->text(); // добавляем в переменную str то, что введено
     a=str.toDouble(&Ok); // если не получается перевести в тип дабл, то Ok = false
     if (Ok)
     {
